@@ -43,21 +43,6 @@ namespace cimg {
             processor =  & en;
         }
 
-        // copy constructor
-        Worker(const Worker & w) {
-            filePath = w.filePath;
-            state = w.state;
-            processor = w.processor;
-        }
-
-        // move constructor
-        Worker(Worker && w)  noexcept {
-            filePath = w.filePath;
-            state = w.state;
-            processor = w.processor;
-            w.filePath = "";
-        }
-
         cv::Mat & getResult() {
             return result;
         }
