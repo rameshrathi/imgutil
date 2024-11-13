@@ -2,3 +2,6 @@
 cmake-build-debug
 cmake-build-release
 build
+.git
+.DS_Store
+src/.DS_Store
