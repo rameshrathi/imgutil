@@ -14,7 +14,6 @@ std::vector<std::string> utils::load_dir_images(const std::string & folderPath) 
     for (const auto& entry : fs::directory_iterator(folderPath)) {
         const fs::path & _path = entry.path();
         if (const fs::path& extension = _path.extension(); extension == ".jpg" || extension == ".png" || extension == ".jpeg") {
-            files.push_back(_path.string());
             files.emplace(files.begin(), _path.string());
         }
     }
