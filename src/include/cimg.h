@@ -8,17 +8,51 @@ namespace cimg {
     class ImageProcessor {
         public:
         virtual ~ImageProcessor() = default;
-        virtual cv::Mat perform(const cv::Mat& img) = 0;
+        virtual void perform(cv::Mat& img) = 0;
     };
     class ImageSharper final : public ImageProcessor {
         public:
-        cv::Mat perform(const cv::Mat &img) override;
         ~ImageSharper() override = default;
+        void perform(cv::Mat &img) override;
     };
     class ColorEnhancer final : public ImageProcessor {
         public:
-        cv::Mat perform(const cv::Mat &img) override;
         ~ColorEnhancer() override = default;
+        void perform(cv::Mat &img) override;
+    };
+    class GaussianBlur final : public ImageProcessor {
+        public:
+        ~GaussianBlur() override = default;
+        void perform(cv::Mat &img) override;
+    };
+    class MedianBlur final : public ImageProcessor {
+    public:
+        ~MedianBlur() override = default;
+        void perform(cv::Mat &img) override;
+    };
+
+    enum MorphOperationType {
+        ERODE    = 0, //!< see #erode
+        DILATE   = 1, //!< see #dilate
+        OPEN     = 2, //!< an opening operation
+        CLOSE    = 3, //!< a closing operation
+        GRADIENT = 4, //!< a morphological gradient
+        TOPHAT   = 5, //!< "top hat"
+        BLACKHAT = 6, //!< "black hat"
+        HITMISS
+    };
+    class MorphOperation final : public ImageProcessor {
+        MorphOperationType morphType;
+        public:
+        explicit MorphOperation(const MorphOperationType mType) : morphType(mType) {}
+        ~MorphOperation() override = default;
+        void perform(cv::Mat &img) override;
+    };
+
+    class HistogramEqualization final : public ImageProcessor {
+        public:
+        ~HistogramEqualization() override = default;
+        void perform(cv::Mat &img) override;
     };
 
     // ***********  WORKER *****************
@@ -33,7 +67,7 @@ namespace cimg {
     class Worker {
         std::string filePath;
         WorkerState state = waiting;
-        ImageProcessor * processor;
+        ImageProcessor *processor;
         cv::Mat result;
 
     public:

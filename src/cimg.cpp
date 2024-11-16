@@ -13,7 +13,7 @@ void cimg::Worker::start() {
         state = failed;
         return;
     }
-    const cv::Mat img = cv::imread(filePath, cv::IMREAD_COLOR);
+    cv::Mat img = cv::imread(filePath, cv::IMREAD_COLOR);
     if (img.empty()) {
         std::cout << "Could not read file: " << filePath << std::endl;
         return;
@@ -22,7 +22,8 @@ void cimg::Worker::start() {
     std::cout << "Task started: " << filePath << std::endl;
 
     // perform the processor task
-    result = processor->perform(img);
+    processor->perform(img);
+    result = img;
 
     if (result.empty()) {
         state = failed;

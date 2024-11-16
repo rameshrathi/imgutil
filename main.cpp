@@ -1,8 +1,8 @@
 #include <iostream>
+#include <future>
 
 #include "src/include/cimg.h"
 #include "src/include/utils.h"
-
 
 void startWorkers(const std::string & folderPath) {
     // Workers
@@ -11,7 +11,7 @@ void startWorkers(const std::string & folderPath) {
         // create workers
         for (const std::vector<std::string> files = utils::load_dir_images(folderPath);
             const std::string& file : files) {
-                auto sharper = cimg::ColorEnhancer();
+                auto sharper = cimg::HistogramEqualization();
                 const auto worker = cimg::Worker(file, sharper);
                 workers.push_back(worker);
             }
@@ -21,14 +21,14 @@ void startWorkers(const std::string & folderPath) {
         w.start();
         if (w.getState() == cimg::WorkerState::completed) {
             cv::Mat & result = w.getResult();
-            cv::imshow("Result", result);
+            imshow("Result", result);
             cv::waitKey(3000);
         }
     }
 }
 
-int main(const int argc, char *argv[])
-{
+// ======================================
+int main(const int argc, char *argv[]) {
     std::cout << "Starting worker..." << std::endl;
 
     const std::string folderPath = argv[1];
