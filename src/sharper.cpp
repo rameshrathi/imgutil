@@ -22,8 +22,8 @@ void cimg::ColorEnhancer::perform(cv::Mat& img) {
     cvtColor(img, hsv, cv::COLOR_BGR2HSV);
 
     // Adjust hue, saturation, and value (example)
-    constexpr double hue_shift = 20;
-    constexpr double sat_scale = 1.2;
+    constexpr double hue_shift = 10;
+    constexpr double sat_scale = 1.1;
     constexpr double val_scale = 1.1;
 
     hsv.forEach<cv::Vec3b>([&](cv::Vec3b& pixel, const int* position) {
@@ -65,9 +65,20 @@ void cimg::HistogramEqualization::perform(cv::Mat& img) {
     int histSize = 256;
     float range[] = { 0, 256 };
     const float* histRange = { range };
-    cv::calcHist(&gray, 1, {0}, cv::Mat(), hist, 1,
-        &histSize, &histRange, true, false);
-
+    cv::calcHist(&gray, 1, {0}, cv::Mat(),
+        hist, 1, &histSize, &histRange, true, false);
     // Equalize the histogram
     cv::equalizeHist(gray, gray);
+}
+
+void cimg::CannyEdgeDetector::perform(cv::Mat& img) {
+    cv::Mat result;
+    cv::Canny(img, result, 100, 200, 3);
+    cv::copyTo(img, result, cv::Mat());
+}
+void cimg::LaplacianSharing::perform(cv::Mat& img) {
+    cv::Mat kernel = (cv::Mat_<char>(3, 3) << 0, 1, 0, 1, -4, 1, 0, 1, 0);
+    cv::Mat sharpened_img;
+    filter2D(img, sharpened_img, -1, kernel);
+    img = img + sharpened_img;
 }

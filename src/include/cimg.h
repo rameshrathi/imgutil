@@ -31,6 +31,12 @@ namespace cimg {
         void perform(cv::Mat &img) override;
     };
 
+    class LaplacianSharing final : public ImageProcessor {
+        public:
+        ~LaplacianSharing() override = default;
+        void perform(cv::Mat &img) override;
+    };
+
     enum MorphOperationType {
         ERODE    = 0, //!< see #erode
         DILATE   = 1, //!< see #dilate
@@ -52,6 +58,12 @@ namespace cimg {
     class HistogramEqualization final : public ImageProcessor {
         public:
         ~HistogramEqualization() override = default;
+        void perform(cv::Mat &img) override;
+    };
+
+    class CannyEdgeDetector final : public ImageProcessor {
+        public:
+        ~CannyEdgeDetector() override = default;
         void perform(cv::Mat &img) override;
     };
 
