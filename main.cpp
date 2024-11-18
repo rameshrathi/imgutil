@@ -11,7 +11,7 @@ void startWorkers(const std::string & folderPath) {
         // create workers
         for (const std::vector<std::string> files = utils::load_dir_images(folderPath);
             const std::string& file : files) {
-                auto sharper = cimg::ColorEnhancer();
+                auto sharper = cimg::ImageSharper();
                 const auto worker = cimg::Worker(file, sharper);
                 workers.push_back(worker);
             }

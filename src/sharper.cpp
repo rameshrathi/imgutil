@@ -62,10 +62,10 @@ void cimg::HistogramEqualization::perform(cv::Mat& img) {
 
     // Calculate the histogram
     cv::MatND hist;
-    int histSize = 256;
+    constexpr int histSize = 256;
     float range[] = { 0, 256 };
     const float* histRange = { range };
-    cv::calcHist(&gray, 1, {0}, cv::Mat(),
+    cv::calcHist(&gray, 1, { nullptr }, cv::Mat(),
         hist, 1, &histSize, &histRange, true, false);
     // Equalize the histogram
     cv::equalizeHist(gray, gray);
@@ -76,9 +76,10 @@ void cimg::CannyEdgeDetector::perform(cv::Mat& img) {
     cv::Canny(img, result, 100, 200, 3);
     cv::copyTo(img, result, cv::Mat());
 }
+
 void cimg::LaplacianSharing::perform(cv::Mat& img) {
-    cv::Mat kernel = (cv::Mat_<char>(3, 3) << 0, 1, 0, 1, -4, 1, 0, 1, 0);
+    const cv::Mat kernel = (cv::Mat_<char>(3, 3) << 0, 1, 0, 1, -4, 1, 0, 1, 0);
     cv::Mat sharpened_img;
     filter2D(img, sharpened_img, -1, kernel);
-    img = img + sharpened_img;
+    img = std::move(sharpened_img);
 }
