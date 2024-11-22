@@ -65,7 +65,8 @@ void cimg::HistogramEqualization::perform(cv::Mat& img) {
     constexpr int histSize = 256;
     float range[] = { 0, 256 };
     const float* histRange = { range };
-    cv::calcHist(&gray, 1, { nullptr }, cv::Mat(),
+    const int channels = 0;
+    cv::calcHist(&gray, 1, {&channels}, cv::Mat(),
         hist, 1, &histSize, &histRange, true, false);
     // Equalize the histogram
     cv::equalizeHist(gray, gray);

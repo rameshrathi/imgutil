@@ -30,6 +30,11 @@ void startWorkers(const std::string & folderPath) {
 // ======================================
 int main(const int argc, char *argv[]) {
     std::cout << "Starting worker..." << std::endl;
+	
+	if (argc < 2) {
+		std::cout << "!Error! - Requires image folder path in arguments" << std::endl;
+		return 1;
+	}
 
     const std::string folderPath = argv[1];
     startWorkers(folderPath);
