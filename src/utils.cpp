@@ -6,6 +6,7 @@
 #include <filesystem>
 
 #include "include/utils.h"
+#include "include/cimg.h"
 
 namespace fs = std::filesystem;
 
@@ -17,7 +18,6 @@ std::vector<std::string> utils::load_dir_images(const std::string & folderPath) 
             files.emplace(files.begin(), _path.string());
         }
     }
-    // Log files count
-    std::cout << "Total files found: " << files.size() << std::endl;
     return files;
 }
+

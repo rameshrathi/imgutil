@@ -10,6 +10,11 @@ namespace cimg {
         virtual ~ImageProcessor() = default;
         virtual void perform(cv::Mat& img) = 0;
     };
+    class WhiteBalance final : public ImageProcessor {
+        public:
+        ~WhiteBalance() override = default;
+        void perform(cv::Mat & img) override;
+    };
     class ImageSharper final : public ImageProcessor {
         public:
         ~ImageSharper() override = default;

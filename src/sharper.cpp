@@ -4,7 +4,7 @@
 
 #include "include/cimg.h"
 
-void whiteBalance(cv::Mat& img) {
+void cimg::WhiteBalance::perform(cv::Mat & img) {
     cv::cvtColor(img, img, cv::COLOR_BGR2RGB);
 }
 
