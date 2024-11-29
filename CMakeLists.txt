@@ -11,7 +11,6 @@ add_executable(cimg main.cpp
         src/include/cimg.h
         src/include/utils.h
         src/cimg.cpp
-        src/sharper.cpp
         src/utils.cpp
 )
 

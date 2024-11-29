@@ -21,6 +21,11 @@ namespace cimg {
     void edgeDetector(Input & input);
     void laplacianSharping(Input & input);
     void histogramEqualization(Input & input);
+
+    struct MorphInput {
+        cv::Mat image;
+        cv::MorphTypes morphType;
+    };
     void morphOperations(Input & input);
 
     // ***********  WORKER *****************

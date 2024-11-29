@@ -11,7 +11,7 @@ void startWorkers(const std::string & folderPath) {
         // create workers
         for (const std::vector<std::string> files = utils::load_dir_images(folderPath);
             const std::string& file : files) {
-                cimg::Worker _worker = cimg::Worker(file, cimg::whiteBalance);
+                cimg::Worker _worker = cimg::Worker(file, cimg::morphOperations);
                 workers.push_back(_worker);
             }
     }

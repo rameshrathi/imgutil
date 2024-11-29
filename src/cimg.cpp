@@ -20,8 +20,8 @@ void cimg::Worker::start() {
     // Task started
     std::cout << "Task started: " << filePath << std::endl;
 
-    // perform the processor task
-    // processor(cimg::Input(img));
+    Input input = Input(img);
+    processor(input);
     result = img;
 
     if (result.empty()) {
@@ -109,8 +109,9 @@ namespace cimg
         constexpr int histSize = 256;
         float range[] = { 0, 256 };
         const float* histRange = { range };
-        const int channels = 0;
-        cv::calcHist(&gray, 1, {&channels}, cv::Mat(),
+        int channels = 0;
+        const int * addr_channel = &channels;
+        cv::calcHist(&gray, 1, { addr_channel }, cv::Mat(),
             hist, 1, &histSize, &histRange, true, false);
         // Equalize the histogram
         cv::equalizeHist(gray, gray);
