@@ -5,72 +5,23 @@
 #include <opencv2/opencv.hpp>
 
 namespace cimg {
-    class ImageProcessor {
-        public:
-        virtual ~ImageProcessor() = default;
-        virtual void perform(cv::Mat& img) = 0;
+    struct Input {
+        cv::Mat image;
+        Input(cv::Mat img) : image(img) {}
     };
-    class WhiteBalance final : public ImageProcessor {
-        public:
-        ~WhiteBalance() override = default;
-        void perform(cv::Mat & img) override;
-    };
-    class ImageSharper final : public ImageProcessor {
-        public:
-        ~ImageSharper() override = default;
-        void perform(cv::Mat &img) override;
-    };
-    class ColorEnhancer final : public ImageProcessor {
-        public:
-        ~ColorEnhancer() override = default;
-        void perform(cv::Mat &img) override;
-    };
-    class GaussianBlur final : public ImageProcessor {
-        public:
-        ~GaussianBlur() override = default;
-        void perform(cv::Mat &img) override;
-    };
-    class MedianBlur final : public ImageProcessor {
-    public:
-        ~MedianBlur() override = default;
-        void perform(cv::Mat &img) override;
-    };
+    using IMAGE_PROCESSOR = void (*) (Input & input);
 
-    class LaplacianSharing final : public ImageProcessor {
-        public:
-        ~LaplacianSharing() override = default;
-        void perform(cv::Mat &img) override;
-    };
+    // *********  Processors ***************
 
-    enum MorphOperationType {
-        ERODE    = 0, //!< see #erode
-        DILATE   = 1, //!< see #dilate
-        OPEN     = 2, //!< an opening operation
-        CLOSE    = 3, //!< a closing operation
-        GRADIENT = 4, //!< a morphological gradient
-        TOPHAT   = 5, //!< "top hat"
-        BLACKHAT = 6, //!< "black hat"
-        HITMISS
-    };
-    class MorphOperation final : public ImageProcessor {
-        MorphOperationType morphType;
-        public:
-        explicit MorphOperation(const MorphOperationType mType) : morphType(mType) {}
-        ~MorphOperation() override = default;
-        void perform(cv::Mat &img) override;
-    };
-
-    class HistogramEqualization final : public ImageProcessor {
-        public:
-        ~HistogramEqualization() override = default;
-        void perform(cv::Mat &img) override;
-    };
-
-    class CannyEdgeDetector final : public ImageProcessor {
-        public:
-        ~CannyEdgeDetector() override = default;
-        void perform(cv::Mat &img) override;
-    };
+    void whiteBalance(Input & input);
+    void imageSharper(Input & input);
+    void colorEnhancer(Input & input);
+    void gaussianBlur(Input & input);
+    void medianBlur(Input & input);
+    void edgeDetector(Input & input);
+    void laplacianSharping(Input & input);
+    void histogramEqualization(Input & input);
+    void morphOperations(Input & input);
 
     // ***********  WORKER *****************
     enum WorkerState {
@@ -84,14 +35,14 @@ namespace cimg {
     class Worker {
         std::string filePath;
         WorkerState state = waiting;
-        ImageProcessor *processor;
+        IMAGE_PROCESSOR processor;
         cv::Mat result;
 
     public:
         // constructor
-        explicit Worker(const std::string & path, ImageProcessor & en) {
-            filePath = path;
-            processor =  & en;
+        explicit Worker(const std::string _path, IMAGE_PROCESSOR _processor) {
+            filePath = _path;
+            processor =  _processor;
         }
 
         cv::Mat & getResult() {
