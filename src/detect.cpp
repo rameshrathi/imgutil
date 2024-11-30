@@ -8,8 +8,6 @@
 void load_net(cv::dnn::Net& net, bool is_cuda)
 {
     //Loading yolov5s onnx model
-    // Eðitilmiþ Onnx modeli cekilir
-
     auto result = cv::dnn::readNet("Models/yolov5s.onnx");
     if (is_cuda)
     {

@@ -22,3 +22,9 @@ struct Detection {
 void load_net(cv::dnn::Net& net, bool is_cuda);
 cv::Mat format_yolov5(const cv::Mat& source);
 
+// For testing purpose
+int show_live_video();
+int detect_object_in_video(const std::string & classPath, const std::string & videoUrl);
+
+// image
+int run_detection(std::string &classPath, std::string & imagePath);

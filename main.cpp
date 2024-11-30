@@ -1,42 +1,19 @@
 #include <iostream>
 #include <future>
 
-#include "src/include/cimg.h"
-#include "src/include/helpers.h"
+#include "src/include/detect.h"
 
-void start_workers(const std::string & folderPath) {
-    // Workers
-    std::vector<cimg::Worker> workers;
-    if (workers.empty()) {
-        // create workers
-        for (const std::vector<std::string> files = helper::load_dir_images(folderPath);
-            const std::string& file : files) {
-                cimg::Worker _worker = cimg::Worker(file, cimg::morphOperations);
-                workers.push_back(_worker);
-            }
-    }
-    // run workers
-    for (cimg::Worker & w : workers) {
-        w.start();
-        if (w.getState() == cimg::WorkerState::completed) {
-            cv::Mat & result = w.getResult();
-            imshow("Result", result);
-            cv::waitKey(3000);
-        }
-    }
-}
+const std::string TAPO_URL = "rtsp:/tapo_front:tapo_front@192.168.29.71/stream1";
+const std::string VIDEOS_FOLDER = "/Users/ramesh/Downloads/resources/videos/";
+const std::string IMAGES_FOLDER = "/Users/ramesh/Downloads/resources/images/";
+const std::string CLASSES_PATH = "/Users/ramesh/Downloads/resources/classes.txt";
 
-// ======================================
 int main(const int argc, char *argv[]) {
     std::cout << "Starting worker..." << std::endl;
-	
-	if (argc < 2) {
-		std::cout << "!Error! - Requires image folder path in arguments" << std::endl;
-		return 1;
-	}
+    // show_live_video();
 
-    const std::string folderPath = argv[1];
-    start_workers(folderPath);
+    std::string videoFile = VIDEOS_FOLDER + "walking.mp4";
+    detect_object_in_video(CLASSES_PATH, videoFile);
 
     std::cout << "Worker is finished..." << std::endl;
     return 0;

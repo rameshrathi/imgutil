@@ -80,15 +80,14 @@ void detect_video(cv::Mat& image, cv::dnn::Net& net, std::vector<Detection>& out
     }
 }
 
-int detect_object_in_video(const std::string & classPath)
+int detect_object_in_video(const std::string & classPath, const std::string & videoUrl)
 {
     // Loads the list of class names using load_class_list()
-
     std::vector<std::string> class_list = helper::load_class_list(classPath);
 
     // Opens a video file for processing.
     cv::Mat frame;
-    cv::VideoCapture capture("video.mp4");
+    cv::VideoCapture capture(videoUrl);
     if (!capture.isOpened())
     {
         std::cerr << "Error while opening video media\n";
@@ -176,9 +175,11 @@ int detect_object_in_video(const std::string & classPath)
 }
 
 int show_live_video() {
-    // URL FORMAT => rtsp://username:password@<ip_address>:554/video1
-    std::string rtsp_url = "rtsp:/tapo_front:tapo_front@192.168.29.71/video1";
+    
+    // Camera Feed URL => rtsp:/tapo_front:tapo_front@192.168.29.71/stream1
+    // Video capture
 
+    std::string rtsp_url = "rtsp:/tapo_front:tapo_front@192.168.29.71/stream1";
     VideoCapture cap(rtsp_url);
 
     if (!cap.isOpened()) {

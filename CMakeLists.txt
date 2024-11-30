@@ -7,7 +7,8 @@ set(CMAKE_CXX_STANDARD 20)
 find_package(OpenCV REQUIRED)
 include_directories(${OpenCV_INCLUDE_DIRS})
 
-add_executable(cimg main.cpp
+add_executable(cimg 
+        main.cpp
         src/include/cimg.h
         src/include/helpers.h
         src/include/detect.h
