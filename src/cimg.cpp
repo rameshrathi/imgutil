@@ -100,7 +100,6 @@ namespace cimg
 
     void histogramEqualization(Input & input) {
         // Calculate the histogram
-        // Convert to grayscale
         cv::Mat gray;
         cvtColor(input.image, gray, cv::COLOR_BGR2GRAY);
 
@@ -109,9 +108,11 @@ namespace cimg
         constexpr int histSize = 256;
         float range[] = { 0, 256 };
         const float* histRange = { range };
+
         int channels = 0;
-        const int * addr_channel = &channels;
-        cv::calcHist(&gray, 1, { addr_channel }, cv::Mat(),
+        int *addr_channel = & channels;
+    
+        cv::calcHist(&gray, 1, addr_channel, cv::Mat(),
             hist, 1, &histSize, &histRange, true, false);
         // Equalize the histogram
         cv::equalizeHist(gray, gray);

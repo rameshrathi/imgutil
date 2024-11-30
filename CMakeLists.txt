@@ -9,9 +9,12 @@ include_directories(${OpenCV_INCLUDE_DIRS})
 
 add_executable(cimg main.cpp
         src/include/cimg.h
-        src/include/utils.h
+        src/include/helpers.h
+        src/include/detect.h
         src/cimg.cpp
-        src/utils.cpp
+        src/helpers.cpp
+        src/detect.cpp
+        src/detect_video.cpp
 )
 
 # link libraries

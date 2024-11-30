@@ -2,14 +2,14 @@
 #include <future>
 
 #include "src/include/cimg.h"
-#include "src/include/utils.h"
+#include "src/include/helpers.h"
 
-void startWorkers(const std::string & folderPath) {
+void start_workers(const std::string & folderPath) {
     // Workers
     std::vector<cimg::Worker> workers;
     if (workers.empty()) {
         // create workers
-        for (const std::vector<std::string> files = utils::load_dir_images(folderPath);
+        for (const std::vector<std::string> files = helper::load_dir_images(folderPath);
             const std::string& file : files) {
                 cimg::Worker _worker = cimg::Worker(file, cimg::morphOperations);
                 workers.push_back(_worker);
@@ -36,7 +36,7 @@ int main(const int argc, char *argv[]) {
 	}
 
     const std::string folderPath = argv[1];
-    startWorkers(folderPath);
+    start_workers(folderPath);
 
     std::cout << "Worker is finished..." << std::endl;
     return 0;
