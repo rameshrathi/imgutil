@@ -4,7 +4,7 @@
 
 #include <filesystem>
 #include <iostream>
-#include "include/cimg.h"
+#include "include/cimg.hpp"
 
 void cimg::Worker::start() {
     // run task on background thread

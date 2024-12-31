@@ -6,7 +6,7 @@
 #include <filesystem>
 #include <fstream>
 
-#include "include/helpers.h"
+#include "include/helpers.hpp"
 
 namespace fs = std::filesystem;
 
