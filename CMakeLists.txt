@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.29)
-project(cimg LANGUAGES CXX)
+project(VideoProcessor LANGUAGES CXX)
 
 set(CMAKE_CXX_COMPILER /usr/bin/clang++)
 set(CMAKE_CXX_STANDARD 20)
@@ -17,7 +17,7 @@ set(FFMPEG_LIBRARIES /opt/homebrew/lib/libavcodec.dylib
 include_directories(${FFMPEG_INCLUDE_DIRS})
 link_directories(/opt/homebrew/lib)
 
-add_executable(cimg 
+add_executable(VideoProcessor 
         main.cpp
         src/include/cimg.hpp
         src/include/helpers.hpp
@@ -29,7 +29,7 @@ add_executable(cimg
 )
 
 # Link libraries
-target_link_libraries(cimg 
+target_link_libraries(VideoProcessor 
         ${OpenCV_LIBS} 
         ${FFMPEG_LIBRARIES}
 )

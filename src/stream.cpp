@@ -11,12 +11,16 @@ extern "C" {
 
 #include <opencv2/opencv.hpp>
 #include <iostream>
+#include <filesystem> // C++17 for directory management
+
+namespace fs = std::filesystem;
 
 #include "include/stream.hpp"
 
 int start_stream(const char * url) {
+
     // Initialize FFmpeg
-    // av_register_all();  => Not needed anymore
+    // av_register_all();
     avformat_network_init();
 
     // Video properties
@@ -33,9 +37,15 @@ int start_stream(const char * url) {
     cap.set(cv::CAP_PROP_FRAME_HEIGHT, height);
     cap.set(cv::CAP_PROP_FPS, fps);
 
+    // Create DASH output directory
+    const std::string outputDir = "/Users/ramesh/Desktop/temp/";
+    if (!fs::exists(outputDir)) {
+        fs::create_directory(outputDir);
+    }
+
     // FFmpeg Output format context (MPEG-DASH)
     AVFormatContext* formatCtx = nullptr;
-    avformat_alloc_output_context2(&formatCtx, nullptr, "dash", "output.mpd");
+    avformat_alloc_output_context2(&formatCtx, nullptr, "dash", (outputDir + "/output.mpd").c_str());
     if (!formatCtx) {
         std::cerr << "Error: Cannot allocate output format context!" << std::endl;
         return -1;
@@ -79,9 +89,15 @@ int start_stream(const char * url) {
     stream->codecpar->height = height;
     stream->codecpar->format = codecCtx->pix_fmt;
 
+    // Set DASH muxer options
+    av_dict_set(&formatCtx->metadata, "hls_playlist", "1", 0); // Needed for DASH
+    av_dict_set(&formatCtx->metadata, "dash_segment_type", "mp4", 0);
+    av_dict_set(&formatCtx->metadata, "dash_init_seg_name", "init-stream$RepresentationID$.mp4", 0);
+    av_dict_set(&formatCtx->metadata, "dash_segment_name", "chunk-stream$RepresentationID$-$Number%.m4s", 0);
+
     // Open output file
     if (!(formatCtx->oformat->flags & AVFMT_NOFILE)) {
-        if (avio_open(&formatCtx->pb, "output.mpd", AVIO_FLAG_WRITE) < 0) {
+        if (avio_open(&formatCtx->pb, (outputDir + "output.mpd").c_str(), AVIO_FLAG_WRITE) < 0) {
             std::cerr << "Error: Cannot open output file!" << std::endl;
             return -1;
         }
@@ -110,6 +126,7 @@ int start_stream(const char * url) {
     pkt.data = nullptr;
     pkt.size = 0;
 
+    // Starting writing frames to the output file which is output.mdp
     int frameCounter = 0;
     while (true) {
         // Capture a frame
@@ -147,9 +164,9 @@ int start_stream(const char * url) {
             av_packet_unref(&pkt);
         }
 
-        // Display locally (optional)
-        cv::imshow("Filtered Video", bgrFrame);
-        if (cv::waitKey(1) == 27) break; // Exit on ESC
+        // // Display locally (optional)
+        // cv::imshow("Filtered Video", bgrFrame);
+        // if (cv::waitKey(1) == 27) break; // Exit on ESC
     }
 
     // Write trailer and cleanup
@@ -161,6 +178,11 @@ int start_stream(const char * url) {
 
     cap.release();
     cv::destroyAllWindows();
+
+    // Serve files on localhost using a Python HTTP server
+    std::cout << "Run this command to serve DASH content locally:\n";
+    std::cout << "    python3 -m http.server --directory dash_output 8000\n";
+    std::cout << "Access the DASH stream at: http://localhost:8000/output.mpd\n";
 
     return 0;
 }
