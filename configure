@@ -1,0 +1,27 @@
+#!/bin/bash
+
+# Function to check if a command exists
+command_exists() {
+    command -v "$1" >/dev/null 2>&1
+}
+
+# Update package list
+sudo apt-get update
+
+# Check and install OpenCV
+if command_exists pkg-config && pkg-config --exists opencv4; then
+    echo "OpenCV is already installed."
+else
+    echo "Installing OpenCV..."
+    sudo apt-get install -y libopencv-dev
+fi
+
+# Check and install FFmpeg
+if command_exists ffmpeg; then
+    echo "FFmpeg is already installed."
+else
+    echo "Installing FFmpeg..."
+    sudo apt-get install -y ffmpeg
+fi
+
+echo "Installation complete."
