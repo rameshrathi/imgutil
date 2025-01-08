@@ -11,7 +11,7 @@ extern "C" {
 
 #include <opencv2/opencv.hpp>
 #include <iostream>
-#include <filesystem> // C++17 for directory management
+#include <filesystem>
 
 namespace fs = std::filesystem;
 
@@ -118,7 +118,8 @@ int start_stream(const char * url) {
 
     SwsContext* swsCtx = sws_getContext(
         width, height, AV_PIX_FMT_BGR24, width, height, AV_PIX_FMT_YUV420P,
-        SWS_BILINEAR, nullptr, nullptr, nullptr);
+        SWS_BILINEAR, nullptr, nullptr, nullptr
+    );
 
     // Packet for encoded data
     AVPacket pkt;
@@ -181,7 +182,7 @@ int start_stream(const char * url) {
 
     // Serve files on localhost using a Python HTTP server
     std::cout << "Run this command to serve DASH content locally:\n";
-    std::cout << "    python3 -m http.server --directory dash_output 8000\n";
+    std::cout << "python3 -m http.server --directory dash_output 8000\n";
     std::cout << "Access the DASH stream at: http://localhost:8000/output.mpd\n";
 
     return 0;
