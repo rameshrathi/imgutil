@@ -2,8 +2,11 @@
 // Created by Ramesh Kumar on 13/11/24.
 //
 
-#ifndef HELPERS_H
-#define HELPERS_H
+#ifndef HELPERS_HPP
+#define HELPERS_HPP
+
+#include <vector>
+#include <string>
 
 namespace helper {
 

@@ -1,5 +1,4 @@
 .idea
-.vscode
 cmake-build-debug
 cmake-build-release
 build
@@ -8,3 +7,6 @@ debug
 .DS_Store
 src/.DS_Store
 *.gch
+xcode
+bin
+.vscode
