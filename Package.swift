@@ -3,7 +3,7 @@
 import PackageDescription
 
 let package = Package(
-    name: "ImageUtil",
+    name: "LiteImage",
     platforms: [
         .macOS(.v14),
         .iOS(.v16)
@@ -19,14 +19,14 @@ let package = Package(
         // The Swift executable target
         .executableTarget(
             name: "Run",
-			dependencies: ["imgutil"],
+			dependencies: ["liteim"],
 			swiftSettings: [.interoperabilityMode(.Cxx)]
         ),
         // The C++ library target for tensors
         .target(
-            name: "imgutil",
+            name: "liteim",
             dependencies: [],
-            path: "imgutil",
+            path: "liteim",
             publicHeadersPath: "include",
             cxxSettings: [
                 .headerSearchPath("include"),
@@ -35,8 +35,8 @@ let package = Package(
         ),
         // Unit test target (optional)
         .testTarget(
-            name: "ImageUtilTests",
-            dependencies: ["imgutil"],
+            name: "LiteImageTests",
+            dependencies: ["liteim"],
 			swiftSettings: [.interoperabilityMode(.Cxx)]
         )
     ],
