@@ -11,7 +11,7 @@ LDFLAGS = `pkg-config --libs opencv4` -L/opt/homebrew/lib -lavcodec -lavformat -
 
 
 # Directories
-SRC_DIR = src
+SRC_DIR = imgutil
 TEST_DIR = tests
 BUILD_DIR = build
 BIN_DIR = bin
