@@ -1,11 +1,9 @@
-// -------------- cl-img.h -----------
-#ifndef imgutil_h
-#define imgutil_h
+// -------------- liteim.h -----------
+// ....
 
-#include <vector>
+#ifndef liteim_h
+#define liteim_h
 
 #include "spng.h"
 
-#include "examples.h"
-
-#endif // CIMG_HPP
+#endif // liteim_h
