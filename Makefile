@@ -1,3 +1,4 @@
+# https://www.gnu.org/software/make/manual/make.html#Overview
 # Compiler and flags
 UNAME_S := $(shell uname -s)
 ifeq ($(UNAME_S),Darwin)

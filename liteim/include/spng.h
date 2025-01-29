@@ -29,6 +29,8 @@
 #ifndef SPNG_H
 #define SPNG_H
 
+#include <stdint.h>
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -50,7 +52,6 @@ extern "C" {
 #endif
 
 #include <stdlib.h>
-#include <stdint.h>
 #include <stdio.h>
 
 #define SPNG_VERSION_MAJOR 0

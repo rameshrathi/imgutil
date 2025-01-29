@@ -10,3 +10,4 @@ src/.DS_Store
 xcode
 bin
 .vscode
+*.png

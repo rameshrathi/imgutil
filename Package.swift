@@ -19,8 +19,8 @@ let package = Package(
         // The Swift executable target
         .executableTarget(
             name: "Run",
-			dependencies: ["liteim"]
-//			swiftSettings: [.interoperabilityMode(.Cxx)]
+			dependencies: ["liteim"],
+			swiftSettings: [.interoperabilityMode(.Cxx)]
         ),
         // The C++ library target for tensors
         .target(
